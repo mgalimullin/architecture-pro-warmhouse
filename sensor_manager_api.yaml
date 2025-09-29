@@ -1,0 +1,65 @@
+openapi: 3.0.4
+info:
+  title: sensor manager
+  description: Управление датчиками вкл/выкл set(темпретура/влажность) создать/удалить
+  version: 0.1.1
+
+servers:
+  - url: http://api.sensor_manager.com/
+    description: Main (production) server
+
+paths:
+  v1/sensor_create:
+    post:
+      summary: Записать иноформацию о датчике в систему
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+            type: object
+            properties:
+              user_id:
+                type: string
+                example: user-7feb24af-fc38-44de-bc38-04defc3804de
+              sensor_id:
+                type: string
+                example: sensor-7feb24af-fc38-44de-bc38-04defc3804de
+              description:
+                type: string
+              status:
+                type: string
+            required:
+              - user_id
+              - sensor_id
+              - status
+      responses:
+        "200": # status code
+          description: датчике занесён в систему успешно
+
+  v1/sensor_update:
+    post:
+      summary: Записать иноформацию о датчике в систему
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+            type: object
+            properties:
+              user_id:
+                type: string
+                example: user-7feb24af-fc38-44de-bc38-04defc3804de
+              sensor_id:
+                type: string
+                example: sensor-7feb24af-fc38-44de-bc38-04defc3804de
+              value:
+                type: string
+              status:
+                type: string
+            required:
+              - user_id
+              - sensor_id
+      responses:
+        "200": # status code
+          description: датчик обновлён

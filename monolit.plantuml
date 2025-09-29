@@ -1,0 +1,33 @@
+@startuml monolit
+skinparam linetype ortho
+skinparam packageStyle rectangle
+
+' Контекст
+left to right direction
+skinparam packageStyle rectangle
+
+rectangle "Тёплый дом" as system {
+    rectangle "Управление датчиками" as domain1 {
+        class "Sensor Management" as sm {
+            + createSensor()
+            + deleteSensor()
+            + updateSensorStatus()
+            + setTargetTemperature()
+        }
+    }
+    
+    rectangle "Мониторинг датчиков" as domain2 {
+        class "Sensor Monitoring" as smon {
+            + checkSensorStatus()
+            + getCurrentReadings()
+            + logSensorData()
+        }
+    }
+    
+    domain1 -right-> domain2 : обменивается данными о датчиках
+}
+
+' Отношения между доменами
+sm -down-> smon : отправляет обновления статуса
+
+@enduml“

@@ -1,0 +1,39 @@
+@startuml micro_container
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+LAYOUT_LEFT_RIGHT()
+
+Person(user, "User", "Пользователь системы")
+
+System_Boundary(app, "Система мониторинга") {
+    Container(webapp, "Web App", "Frontend/Backend", "Интерфейс для пользователя")
+    Container(auth, "Сервис аутентификации", "OAuth (Яндекс/Google/VK)", "Авторизация пользователей")
+    Container(sensor_mgmt, "Сервис управления датчиками", "Service", "Управление статусом датчиков")
+    Container(history, "Сервис истории метрик", "Service", "Хранение и предоставление истории метрик")
+    Container(scripts, "Сервис скриптов", "Service", "Управление пользовательскими скриптами")
+
+    ContainerDb(db_sensors, "БД ДАТЧИКИ", "PostgreSQL", "user_id, sensor_id, status, update_timestamp")
+    ContainerDb(db_metrics, "БД ЛОГ МЕТРИК", "PostgreSQL", "user_id, sensor_id, value, timestamp")
+    ContainerDb(db_scripts, "БД СКРИПТЫ", "PostgreSQL", "user_id, sensor_id, script, timestamp")
+
+    Container(queue, "Шина данных 'показания датчиков'", "Kafka", "Передача данных от датчиков")
+}
+
+System_Ext(sensors, "Датчики", "свет, температура, влажность")
+
+' Связи
+Rel(user, webapp, "Использует")
+Rel(webapp, auth, "OAuth аутентификация")
+Rel(webapp, sensor_mgmt, "Управление датчиками")
+Rel(webapp, history, "Запрос истории метрик")
+Rel(webapp, scripts, "Управление скриптами")
+
+Rel(sensor_mgmt, db_sensors, "Запись/чтение")
+Rel(history, db_metrics, "Запись/чтение")
+Rel(scripts, db_scripts, "Запись/чтение")
+
+Rel(sensors, queue, "Публикация показаний")
+Rel(queue, history, "Передача данных")
+Rel(queue, scripts, "Передача данных")
+
+@enduml
