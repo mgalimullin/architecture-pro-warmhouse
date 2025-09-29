@@ -15,7 +15,7 @@ import (
 type TemperatureResponse struct {
 	Location    string  `json:"location"`
 	SensorID    string  `json:"sensor_id"`
-	Temperature float64 `json:"temperature"`
+	Value 		float64 `json:"value"`
 }
 
 var locationToSensorID = map[string]string{
@@ -94,7 +94,7 @@ func respondWithTemperature(w http.ResponseWriter, location, sensorID string) {
 	response := TemperatureResponse{
 		Location:    location,
 		SensorID:    sensorID,
-		Temperature: math.Round(temp*10) / 10, // округлим до 0.1
+		Value: math.Round(temp*10) / 10, // округлим до 0.1
 	}
 
 	w.Header().Set("Content-Type", "application/json")
