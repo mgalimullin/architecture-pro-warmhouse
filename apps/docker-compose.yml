@@ -24,10 +24,11 @@ services:
       context: ./temperature_api
       dockerfile: Dockerfile
     container_name: temperature-api
-    networks:
-      - smarthome-network
     ports:
       - "8081:8081"
+    restart: unless-stopped
+    networks:
+      - smarthome-network
  
 
   app:
@@ -48,6 +49,27 @@ services:
     restart: unless-stopped
     networks:
       - smarthome-network
+
+  sensor-manager:
+    build:
+      context: ./sensor_manager
+      dockerfile: Dockerfile
+    container_name: sensor-manager
+    depends_on:
+      - app
+    environment:
+      - SMART_HOME_AP=http://smarthome-app:8080
+    ports:
+      - "8090:8000"
+    restart: unless-stopped
+    networks:
+      - smarthome-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
 
 volumes:
   postgres-data:
