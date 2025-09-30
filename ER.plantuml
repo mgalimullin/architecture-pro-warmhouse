@@ -1,0 +1,42 @@
+@startuml
+' Определяем сущности и их атрибуты
+entity "User" as user {
+    *user_id : UUID
+    --
+    name : String
+    email : String
+}
+
+entity "Sensor" as sensor {
+    *sensor_id : UUID
+    --
+    type : String
+    status : String
+    update_timestamp : Timestamp
+    user_id : UUID
+}
+
+entity "MetricLog" as metric {
+    *log_id : UUID
+    --
+    user_id : UUID
+    sensor_id : UUID
+    value : Float
+    timestamp : Timestamp
+}
+
+entity "Script" as script {
+    *script_id : UUID
+    --
+    user_id : UUID
+    sensor_id : UUID
+    script_content : Text
+    timestamp : Timestamp
+}
+
+' Определяем связи между сущностями
+user ||--o{ sensor : "владеет"
+sensor ||--o{ metric : "генерирует"
+user ||--o{ script : "создает"
+sensor ||--o{ script : "управляется скриптом"
+@enduml
