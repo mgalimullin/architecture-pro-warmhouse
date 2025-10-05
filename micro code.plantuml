@@ -1,0 +1,32 @@
+@startuml
+title Code diagram - Работа с датчиками
+
+package "Модуль работы с данными" {
+    class BusDataSubscriber {
+    }
+
+    class SqlWrapper {
+        + DoSelect()
+        + DoInsert()
+    }
+
+    class ReqGetSensorVal {
+        + (sensor_id, user_id) : val
+    }
+
+    class ReqGetSensorHist {
+        + (sensor_id, user_id, start_date, finish_date) : list<pair<val, timestamp>>
+    }
+}
+
+class DataBus <<external>> {
+    + SensorData
+}
+
+' Связи
+DataBus --> BusDataSubscriber : передаёт данные
+BusDataSubscriber --> SqlWrapper : DoInsert
+ReqGetSensorVal --> SqlWrapper : DoSelect
+ReqGetSensorHist --> SqlWrapper : DoSelect
+
+@enduml

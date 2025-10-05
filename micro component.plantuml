@@ -1,0 +1,24 @@
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+title Сервис "История метрик"
+
+Container_Boundary(c1, "Сервис 'История метрик'") {
+    Component(kafkaReader, "KafkaQReader", "Компонент", "Читает данные из шины данных")
+    Component(dbWriter, "DbWriter", "Компонент")
+    Component(dbReader, "DbReader", "Компонент")
+    Component(httpServer, "HttpServer", "Компонент", "Обрабатывает REST-запросы пользователей")
+}
+
+System_Ext(kafkaBus, "Шина данных 'Показания датчиков'", "Kafka")
+ContainerDb(db, "БД 'ЛОГ МЕТРИК'", "PostgreSQL")
+System_Ext(webapp, "WebApp", "Веб-приложение", "Пользовательский интерфейс")
+
+' --- связи ---
+Rel(kafkaBus, kafkaReader, "Передаёт показания датчиков")
+Rel(kafkaReader, dbWriter, "Передаёт данные для записи")
+Rel(dbWriter, db, "INSERT — запись метрик")
+Rel(dbReader, db, "SELECT — чтение метрик")
+Rel(httpServer, dbReader, "Запрашивает историю метрик")
+Rel(webapp, httpServer, "REST API запросы пользователей")
+@enduml
