@@ -131,23 +131,23 @@ CREATE TABLE IF NOT EXISTS sensors (
 
 **Диаграмма контейнеров (Containers)**
 
-[тык plantuml](micro container.plantuml)
-[тык png](micro container.png)
+- [тык plantuml](micro container.plantuml)
+- [тык png](micro container.png)
 
 **Диаграмма компонентов (Components)**
 
-не пониаю отличия от диаграммы контейнеров
-[тык plantuml](micro component.plantuml)
+- [updated тык plantuml](micro component.plantuml)
+- [тык png](micro component.png)
 
 **Диаграмма кода (Code)**
 
-[тык plantuml](micro code.plantuml)
-[тык png](micro code.png)
+- [тык plantuml](micro code.plantuml)
+- [тык png](micro code.png)
 
 # Задание 3. Разработка ER-диаграммы
 
-[тык plantuml](ER.plantuml)
-[тык png](ER.png)
+- [тык plantuml](ER.plantuml)
+- [тык png](ER.png)
 
 # Задание 4. Создание и документирование API
 
@@ -159,8 +159,11 @@ CREATE TABLE IF NOT EXISTS sensors (
 
 ### 2. Документация API
 
-[sensor manager api](sensor_manager_api.yaml)
-[sensor monitor api](sensor_monitor_api.yaml)
+- [sensor monitor api](sensor_monitor_api.yaml)
+- [sensor manager api](sensor_manager_api.yaml)
+- [sensor monitor scripts api](sensor_monitor_scripts_api.yaml)
+
+непонятно что такое "... примеры схем запросов/ответов."
 
 # Задание 5. Работа с docker и docker-compose
 

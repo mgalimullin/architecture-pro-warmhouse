@@ -1,0 +1,90 @@
+openapi: 3.0.4
+info:
+  title: sensor monitor history
+  description: обработка данных от датчика
+  version: 0.1.1
+
+servers:
+  - url: http://api.sensor_scripts.com/
+    description: Main (production) server
+
+paths:
+  v1/update:
+    post:
+      summary: Создать/обновить скрипт работы с датчиками
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+            type: object
+            properties:
+              user_id:
+                type: string
+                example: user-7feb24af-fc38-44de-bc38-04defc3804de
+              script_id:
+                description: id  скрипта (если существует, для модификаций)
+                type: string
+              script_name:
+                description: имя скрипта
+                type: string
+              script:
+                description: скрипт на ЯП lua
+                type: string
+            required:
+              - user_id
+              - script
+      responses:
+        "200":
+          description: скрипт применён успешно 
+          content:
+            application/json:
+            schema:
+              type: object
+              properties:
+                script_id:
+                  type: string
+                  example: script-7feb24af-fc38-44de-bc38-04defc3804de
+        "404":
+          description: скрипт для обновления не найден
+          content:
+            application/json:
+            schema:
+              type: object
+              properties:
+                msg:
+                  type: string
+
+  v1/delete:
+    post:
+      summary: Создать/обновить скрипт работы с датчиками
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+            type: object
+            properties:
+              user_id:
+                type: string
+                example: user-7feb24af-fc38-44de-bc38-04defc3804de
+              script_id:
+                description: id  скрипта (если существует, для модификаций)
+                type: string
+              script_name:
+                description: имя скрипта
+                type: string
+            required:
+              - user_id
+      responses:
+        "200":
+          description: скрипт удалён
+        "404":
+          description: скрипт для удалён не найден
+          content:
+            application/json:
+            schema:
+              type: object
+              properties:
+                msg:
+                  type: string
